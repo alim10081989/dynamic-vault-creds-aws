@@ -7,7 +7,7 @@ terraform {
 data "terraform_remote_state" "admin" {
   backend = "remote"
   config = {
-    organization = "demo-azadal-org""
+    organization = "demo-azadal-org"
     workspaces = {
       name = "vault-aws-se-dyncreds"
     }
