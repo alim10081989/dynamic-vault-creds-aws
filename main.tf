@@ -1,7 +1,7 @@
 provider "tfe" {}
 
 data "tfe_outputs" "admin" {
-  organization = "demo-azadal-org"
+  organization = "tf-azadal-org"
   workspace    = "vault-aws-se-dyncreds"
 }
 
