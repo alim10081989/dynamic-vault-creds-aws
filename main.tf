@@ -1,22 +1,19 @@
-terraform {
-  backend "local" {
-    path = "terraform.tfstate"
-  }
-}
+provider "tfe" {}
 
-data "terraform_remote_state" "admin" {
-  backend = "remote"
-  config = {
-    organization = "demo-azadal-org"
-    workspaces = {
-      name = "vault-aws-se-dyncreds"
-    }
-  }
+data "tfe_outputs" "admin" {
+  organization = "demo-azadal-org"
+  workspace    = "vault-aws-se-dyncreds"
 }
 
 data "vault_aws_access_credentials" "creds" {
-  backend = data.terraform_remote_state.admin.outputs.backend
-  role    = data.terraform_remote_state.admin.outputs.role
+  backend = data.tfe_outputs.admin.values.backend
+  role    = data.tfe_outputs.admin.values.role
+}
+
+provider "vault" {
+  address            = "http://${var.vault_address}"
+  add_address_to_env = true
+  token              = var.vault_token
 }
 
 provider "aws" {
